@@ -117,6 +117,24 @@
 }
 
 /* ==========================================================================
+   Components
+   ========================================================================== */
+
+@layer components {
+  /* Mobile menu visibility is owned by CSS, not by React, so it works BOTH
+     ways: `data-open` when JavaScript is running, and `:target` when it is not.
+     `display: none` when closed keeps the panel out of the accessibility tree
+     and the tab order without unmounting it. */
+  .mobile-menu {
+    display: none;
+  }
+  .mobile-menu[data-open="true"],
+  .mobile-menu:target {
+    display: flex;
+  }
+}
+
+/* ==========================================================================
    Utilities
    ========================================================================== */
 

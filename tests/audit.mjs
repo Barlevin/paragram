@@ -72,8 +72,21 @@ for (const width of widths) {
     const interactive = document.querySelectorAll(
       'a[href], button, input:not([type="hidden"]), select, textarea, summary, [role="button"]',
     );
+    // WCAG 2.2 SC 2.5.8 explicitly exempts targets that sit inline within a
+    // sentence, because enlarging them would break the line box. An email
+    // address linked mid-paragraph is the canonical example.
+    const isInlineInProse = (el) => {
+      if (el.tagName !== "A") return false;
+      const parent = el.parentElement;
+      if (!parent) return false;
+      if (!/^(P|LI|SPAN|STRONG|EM|DD|DT|TD)$/.test(parent.tagName))
+        return false;
+      return getComputedStyle(el).display === "inline";
+    };
+
     for (const el of interactive) {
       if (isDevOverlay(el)) continue;
+      if (isInlineInProse(el)) continue;
       const style = getComputedStyle(el);
       if (style.display === "none" || style.visibility === "hidden") continue;
       // Visually-hidden inputs are driven by an associated label.

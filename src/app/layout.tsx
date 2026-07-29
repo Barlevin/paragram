@@ -1,6 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import { fontVariables } from "@/styles/fonts";
 import { site } from "@/content/site";
+import { MotionProvider } from "@/components/motion/MotionProvider";
+import { SkipLink } from "@/components/layout/SkipLink";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
+import { StickyActionBar } from "@/components/layout/StickyActionBar";
 import "./globals.css";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
@@ -38,7 +43,15 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="he" dir="rtl" className={fontVariables}>
-      <body>{children}</body>
+      <body>
+        <MotionProvider>
+          <SkipLink />
+          <Header />
+          {children}
+          <Footer />
+          <StickyActionBar />
+        </MotionProvider>
+      </body>
     </html>
   );
 }

@@ -101,7 +101,19 @@ export function Button(props: AsLink | AsButton) {
   );
 
   if (props.href !== undefined) {
-    const { href, external, variant: _v, size: _s, icon: _i, ...rest } = props;
+    // `className` and `children` MUST be pulled out of `rest`: spreading them
+    // after the explicit props would overwrite the composed classes and strip
+    // every base style off the element.
+    const {
+      href,
+      external,
+      variant: _v,
+      size: _s,
+      icon: _i,
+      className: _c,
+      children: _ch,
+      ...rest
+    } = props;
 
     if (external) {
       return (
@@ -132,6 +144,8 @@ export function Button(props: AsLink | AsButton) {
     variant: _v,
     size: _s,
     icon: _i,
+    className: _c,
+    children: _ch,
     disabled,
     ...rest
   } = props;

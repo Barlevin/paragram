@@ -47,3 +47,5 @@ pnpm-debug.log*
 
 # bundle analyzer output
 .next/analyze/
+
+tests/screenshots/

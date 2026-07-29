@@ -1,17 +1,24 @@
 import type { NextConfig } from "next";
 import bundleAnalyzer from "@next/bundle-analyzer";
 
+const isDev = process.env.NODE_ENV === "development";
+
 /**
- * Security headers. The CSP intentionally omits `unsafe-inline` for scripts.
- * `style-src` still allows inline styles because React writes the seam's
- * custom property through a style attribute and Next injects critical CSS.
+ * Security headers.
+ *
+ * `style-src` allows inline styles because Next injects critical CSS and the
+ * hero seam writes its position through a style attribute.
+ *
+ * `'unsafe-eval'` is added in DEVELOPMENT ONLY: React's dev build uses eval()
+ * to reconstruct call stacks across environments. React never uses eval() in
+ * production, so the production policy stays strict.
  */
 const securityHeaders = [
   {
     key: "Content-Security-Policy",
     value: [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com",
+      `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""} https://challenges.cloudflare.com`,
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: blob:",
       "font-src 'self'",

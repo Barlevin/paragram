@@ -1,0 +1,145 @@
+/* ==========================================================================
+   Design tokens — «שרטוט» / Blueprint
+   Ink, paper and copper. Draft blue is reserved exclusively for unbuilt
+   linework and is always decorative (aria-hidden), so it is never required
+   to meet a contrast ratio.
+   ========================================================================== */
+
+@theme {
+  /* --- Color: ink ------------------------------------------------------- */
+  --color-ink-950: #080c13; /* final CTA */
+  --color-ink-900: #0d1420; /* portfolio, why band */
+  --color-ink-800: #16202f;
+  --color-ink-700: #24313f;
+  --color-ink-600: #38475a;
+
+  /* --- Color: paper ----------------------------------------------------- */
+  --color-paper-50: #fdfbf7; /* cards */
+  --color-paper-100: #f6f3ee; /* page */
+  --color-paper-200: #ede8e0; /* surfaces */
+  --color-paper-300: #ddd5c9; /* hairlines */
+
+  /* --- Color: copper (the single accent) -------------------------------- */
+  --color-copper-400: #d08a5e; /* hover */
+  --color-copper-500: #b4623a; /* primary */
+  --color-copper-600: #91492a; /* pressed, and text on paper */
+
+  /* --- Color: draft blue (unbuilt linework only) ------------------------ */
+  --color-draft-300: #b6c6d8;
+  --color-draft-400: #8fa6bf;
+
+  /* --- Color: text ------------------------------------------------------ */
+  --color-text-primary: #0d1420; /* 15.8:1 on paper-100 */
+  --color-text-secondary: #47535f; /* 7.9:1  on paper-100 */
+  --color-text-tertiary: #6b7683; /* 4.9:1  — large text and labels only */
+  --color-text-inverse: #f6f3ee; /* 15.8:1 on ink-900 */
+  --color-text-inverse-secondary: #a8b4c0; /* 7.4:1  on ink-900 */
+
+  /* --- Color: semantic -------------------------------------------------- */
+  --color-success-600: #2e6b4f;
+  --color-success-50: #eaf3ee;
+  --color-error-600: #a32e2e;
+  --color-error-50: #f9ecec;
+  --color-warning-600: #8a6410;
+  --color-warning-50: #f7f1e2;
+
+  /* --- Typography: families -------------------------------------------- */
+  /* Hebrew resolves to the first face; Latin falls through to the second
+     because each face declares an explicit unicode-range. */
+  --font-display:
+    var(--font-display-he), var(--font-mono-latin), "Times New Roman", serif;
+  --font-body:
+    var(--font-body-he), var(--font-body-latin), system-ui, -apple-system,
+    "Segoe UI", Arial, sans-serif;
+  --font-mono:
+    var(--font-mono-latin), var(--font-body-he), ui-monospace, "Cascadia Mono",
+    Consolas, monospace;
+
+  /* --- Typography: fluid scale (1.25 ratio) ----------------------------- */
+  --text-display-xl: clamp(2.5rem, 7vw, 5.5rem);
+  --text-display-xl--line-height: 1.15;
+  --text-display-lg: clamp(2rem, 5vw, 3.75rem);
+  --text-display-lg--line-height: 1.15;
+  --text-display-md: clamp(1.75rem, 3.5vw, 2.75rem);
+  --text-display-md--line-height: 1.2;
+  --text-heading: 1.5rem;
+  --text-heading--line-height: 1.3;
+  --text-body-lg: 1.1875rem;
+  --text-body-lg--line-height: 1.75;
+  --text-body: 1.0625rem;
+  --text-body--line-height: 1.75;
+  --text-body-sm: 0.9375rem;
+  --text-body-sm--line-height: 1.65;
+  --text-mono-label: 0.8125rem;
+  --text-mono-label--line-height: 1.5;
+
+  /* --- Radius (drafting is a square language) --------------------------- */
+  --radius-sm: 4px; /* inputs, chips */
+  --radius-md: 8px; /* cards, buttons */
+  --radius-lg: 12px; /* stage frames */
+  --radius-device-phone: 20px;
+  --radius-device-desktop: 8px;
+
+  /* --- Shadows, all warm-tinted rather than neutral grey ---------------- */
+  --shadow-sm: 0 1px 2px rgb(13 20 32 / 0.04);
+  --shadow-md: 0 4px 12px rgb(13 20 32 / 0.06);
+  --shadow-lg: 0 12px 32px rgb(13 20 32 / 0.08);
+  --shadow-xl: 0 24px 64px rgb(13 20 32 / 0.1);
+  --shadow-2xl: 0 40px 100px rgb(13 20 32 / 0.14);
+
+  /* --- Easing. No springs, no overshoot: bounce would contradict the
+         precision the whole concept is built on. ------------------------- */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-mechanical: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* --- Breakpoints ------------------------------------------------------ */
+  --breakpoint-sm: 30rem; /* 480px */
+  --breakpoint-md: 48rem; /* 768px — the GSAP / carousel boundary */
+  --breakpoint-lg: 64rem; /* 1024px */
+  --breakpoint-xl: 80rem; /* 1280px */
+  --breakpoint-2xl: 96rem; /* 1536px */
+
+  /* --- Containers ------------------------------------------------------- */
+  --container-content: 1280px;
+  --container-wide: 1440px;
+  --container-narrow: 960px;
+}
+
+:root {
+  /* --- Motion durations. Kept outside @theme because these are consumed by
+         CSS animations and custom properties, not by a utility namespace. -- */
+  --duration-instant: 0ms;
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+  --duration-slow: 400ms;
+  --duration-slower: 600ms;
+  --duration-signature: 1600ms;
+
+  /* --- Layout ----------------------------------------------------------- */
+  --gutter: 1rem;
+  --measure: 68ch; /* prose width, tuned for Hebrew */
+  --header-height: 72px;
+  --header-height-scrolled: 56px;
+
+  /* --- Draft grid ------------------------------------------------------- */
+  --draft-grid-size: 16px; /* mobile: lighter grid */
+  --draft-grid-opacity: 0.5;
+
+  /* --- Scroll reveal travel. Reduced on mobile in globals.css. ---------- */
+  --reveal-travel: 24px;
+}
+
+@media (min-width: 48rem) {
+  :root {
+    --gutter: 1.5rem;
+    --draft-grid-size: 8px; /* desktop: the finer 8px drafting grid */
+    --reveal-travel: 40px;
+  }
+}
+
+@media (min-width: 80rem) {
+  :root {
+    --gutter: 2rem;
+  }
+}

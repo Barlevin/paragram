@@ -1,0 +1,218 @@
+@import "tailwindcss";
+@import "../styles/tokens.css";
+@import "../styles/motion.css";
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    /* Native smooth anchor scrolling. No smooth-scroll library: those hijack
+       the scroll thread, break find-in-page scroll-into-view and degrade
+       mobile scrolling. */
+    scroll-behavior: auto;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    background-color: var(--color-paper-100);
+    color: var(--color-text-primary);
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    line-height: 1.75;
+    /* Hebrew is never tracked negatively — a habit imported from Latin
+       display design that damages Hebrew letterforms. */
+    letter-spacing: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100dvh;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: 0;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Hebrew has no italics; emphasis is weight or the copper accent. */
+  em,
+  i {
+    font-style: normal;
+    font-weight: 600;
+    color: var(--color-copper-600);
+  }
+
+  /* Anchor offset so in-page navigation never lands under the fixed header. */
+  :where(h2, h3, section)[id] {
+    scroll-margin-block-start: calc(var(--header-height) + 2rem);
+  }
+
+  /* Focus is never removed — only restyled. Copper clears 3:1 against both
+     the paper and ink bands. */
+  :focus-visible {
+    outline: 2px solid var(--color-copper-500);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+  .on-ink :focus-visible,
+  .on-ink:focus-visible {
+    outline-color: var(--color-copper-400);
+  }
+
+  ::selection {
+    background-color: color-mix(in oklab, var(--color-copper-500) 22%, white);
+    color: var(--color-ink-900);
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+    color: inherit;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  img,
+  svg,
+  video,
+  canvas {
+    display: block;
+    max-width: 100%;
+  }
+
+  /* Native accordion animation, no JavaScript height measurement. */
+  @supports (interpolate-size: allow-keywords) {
+    :root {
+      interpolate-size: allow-keywords;
+    }
+  }
+}
+
+/* ==========================================================================
+   Utilities
+   ========================================================================== */
+
+@layer utilities {
+  /* --- Layout ---------------------------------------------------------- */
+  .container-content {
+    width: min(100% - 2 * var(--gutter), var(--container-content));
+    margin-inline: auto;
+  }
+  .container-wide {
+    width: min(100% - 2 * var(--gutter), var(--container-wide));
+    margin-inline: auto;
+  }
+  .container-narrow {
+    width: min(100% - 2 * var(--gutter), var(--container-narrow));
+    margin-inline: auto;
+  }
+  .measure {
+    max-width: var(--measure);
+  }
+
+  /* --- Bands ------------------------------------------------------------ */
+  .band-paper {
+    background-color: var(--color-paper-100);
+    color: var(--color-text-primary);
+  }
+  .band-ink {
+    background-color: var(--color-ink-900);
+    color: var(--color-text-inverse);
+  }
+  .band-ink-deep {
+    background-color: var(--color-ink-950);
+    color: var(--color-text-inverse);
+  }
+
+  /* --- Draft grid: one of exactly four decorative elements -------------- */
+  .draft-grid {
+    background-image:
+      linear-gradient(
+        to left,
+        color-mix(in oklab, var(--color-draft-400) 30%, transparent) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        to bottom,
+        color-mix(in oklab, var(--color-draft-400) 30%, transparent) 1px,
+        transparent 1px
+      );
+    background-size: var(--draft-grid-size) var(--draft-grid-size);
+  }
+
+  /* --- Screen-reader only ---------------------------------------------- */
+  .sr-only-focusable:not(:focus):not(:focus-within) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  /* --- Bidi isolation --------------------------------------------------
+     Phone numbers, emails, URLs and standalone numerals must be isolated or
+     they reorder inside Hebrew sentences. This is the single most common
+     Hebrew web bug. */
+  .ltr-isolate {
+    direction: ltr;
+    unicode-bidi: isolate;
+    display: inline-block;
+  }
+
+  /* --- Hairline: always exactly 1px, never scaled ---------------------- */
+  .hairline-b {
+    border-block-end: 1px solid var(--color-paper-300);
+  }
+  .on-ink .hairline-b {
+    border-block-end-color: var(--color-ink-700);
+  }
+
+  /* --- Typographic helper --------------------------------------------- */
+  .mono-label {
+    font-family: var(--font-mono);
+    font-size: var(--text-mono-label);
+    letter-spacing: 0.04em;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* Only enable hover affordances where a real pointer exists, so touch
+   devices never get stuck in a hover state. */
+@media (hover: none) {
+  .hover-lift:hover {
+    transform: none;
+    box-shadow: var(--shadow-sm);
+  }
+}

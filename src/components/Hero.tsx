@@ -16,10 +16,10 @@ export function Hero() {
     <section className={`hero ${ready ? "hero--ready" : ""}`} id="top">
       <div className="hero__media">
         <img
-          src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=2200&q=90"
-          alt="חלל פנים מודרני ומעוצב"
-          width="2200"
-          height="1400"
+          src="/images/hero.webp"
+          alt="מחשב נייד וטלפון מציגים אתר עסקי שעוצב ופותח על ידי Paragram"
+          width="1672"
+          height="941"
           fetchPriority="high"
           ref={revealIfAlreadyLoaded}
           onLoad={(event) => { event.currentTarget.dataset.loaded = "true"; }}

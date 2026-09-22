@@ -90,6 +90,14 @@ await sharp({ create: { width: 1200, height: 630, channels: 4, background: white
   .toFile(out("images/og-paragram.png"));
 console.info("og     images/og-paragram.png (1200x630)");
 
+// Hero backdrop. Full-bleed and the page's LCP element, so it gets its own
+// treatment rather than being lumped in with the project thumbnails.
+await sharp(src("heroimg.png"))
+  .resize({ width: 1672, withoutEnlargement: true })
+  .webp({ quality: 80 })
+  .toFile(out("images/hero.webp"));
+console.info("image  images/hero.webp");
+
 // Project screenshots: the card only ever renders a 1.42:1 crop, so a 1400px
 // WebP is plenty and saves roughly 95% over the source PNGs.
 for (const name of ["dmz", "yagelshukrun"]) {

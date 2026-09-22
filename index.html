@@ -102,6 +102,20 @@
         ]
       }
     </script>
+
+    <!-- Applies saved accessibility preferences before first paint, so a reader
+         who needs larger text or higher contrast never sees the default first. -->
+    <script>
+      try {
+        var a11y = JSON.parse(localStorage.getItem("paragram:a11y") || "{}");
+        var root = document.documentElement;
+        var scale = [1, 1.1, 1.2, 1.35][a11y.fontStep || 0];
+        if (scale) root.style.setProperty("--a11y-font-scale", String(scale));
+        if (a11y.contrast) root.dataset.a11yContrast = "on";
+        if (a11y.underlineLinks) root.dataset.a11yLinks = "on";
+        if (a11y.stopMotion) root.dataset.a11yStill = "on";
+      } catch (error) {}
+    </script>
   </head>
   <body>
     <div id="root"></div>

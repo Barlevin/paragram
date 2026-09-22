@@ -9,6 +9,13 @@ afterEach(() => {
   cleanup();
   vi.restoreAllMocks();
   window.history.pushState({}, "", "/");
+  // The accessibility panel writes to <html> and localStorage, so reset both or
+  // preferences leak into the next test.
+  window.localStorage.clear();
+  document.documentElement.removeAttribute("style");
+  for (const name of ["contrast", "links", "still"]) {
+    document.documentElement.removeAttribute(`data-a11y-${name}`);
+  }
 });
 
 describe("agency site", () => {
@@ -129,5 +136,88 @@ describe("agency site", () => {
     await userEvent.click(screen.getAllByRole("link", { name: "הצהרת נגישות" })[0]);
     expect(document.title).toBe("הצהרת נגישות | Paragram");
     expect(document.querySelector('link[rel="canonical"]')).toHaveAttribute("href", `${SITE_URL}/accessibility`);
+  });
+});
+
+describe("accessibility panel", () => {
+  const root = () => document.documentElement;
+  const openPanel = async () => {
+    await userEvent.click(screen.getByRole("button", { name: "תפריט נגישות" }));
+  };
+
+  it("stays hidden from assistive tech until the toggle is pressed", async () => {
+    render(<App />);
+    const toggle = screen.getByRole("button", { name: "תפריט נגישות" });
+    expect(toggle).toHaveAttribute("aria-expanded", "false");
+    expect(screen.queryByRole("button", { name: "ניגודיות גבוהה" })).not.toBeInTheDocument();
+
+    await userEvent.click(toggle);
+    expect(toggle).toHaveAttribute("aria-expanded", "true");
+    expect(screen.getByRole("button", { name: "ניגודיות גבוהה" })).toBeInTheDocument();
+  });
+
+  it("applies each toggle to the document and remembers it", async () => {
+    render(<App />);
+    await openPanel();
+
+    for (const [label, attribute] of [
+      ["ניגודיות גבוהה", "data-a11y-contrast"],
+      ["הדגשת קישורים", "data-a11y-links"],
+      ["עצירת אנימציות", "data-a11y-still"],
+    ]) {
+      const option = screen.getByRole("button", { name: label });
+      await userEvent.click(option);
+      expect(option).toHaveAttribute("aria-pressed", "true");
+      expect(root()).toHaveAttribute(attribute, "on");
+    }
+
+    const stored = JSON.parse(window.localStorage.getItem("paragram:a11y") ?? "{}");
+    expect(stored).toMatchObject({ contrast: true, underlineLinks: true, stopMotion: true });
+
+    const contrast = screen.getByRole("button", { name: "ניגודיות גבוהה" });
+    await userEvent.click(contrast);
+    expect(contrast).toHaveAttribute("aria-pressed", "false");
+    expect(root()).not.toHaveAttribute("data-a11y-contrast");
+  });
+
+  it("scales text within bounds and resets everything", async () => {
+    render(<App />);
+    await openPanel();
+    const grow = screen.getByRole("button", { name: "הגדלת הטקסט" });
+    const shrink = screen.getByRole("button", { name: "הקטנת הטקסט" });
+
+    expect(shrink).toBeDisabled();
+    await userEvent.click(grow);
+    expect(root().style.getPropertyValue("--a11y-font-scale")).toBe("1.1");
+
+    await userEvent.click(grow);
+    await userEvent.click(grow);
+    expect(root().style.getPropertyValue("--a11y-font-scale")).toBe("1.35");
+    expect(grow).toBeDisabled();
+
+    await userEvent.click(screen.getByRole("button", { name: "ניגודיות גבוהה" }));
+    await userEvent.click(screen.getByRole("button", { name: /איפוס הגדרות/ }));
+    expect(root().style.getPropertyValue("--a11y-font-scale")).toBe("1");
+    expect(root()).not.toHaveAttribute("data-a11y-contrast");
+  });
+
+  it("restores saved preferences on load", () => {
+    window.localStorage.setItem(
+      "paragram:a11y",
+      JSON.stringify({ fontStep: 2, contrast: true, underlineLinks: false, stopMotion: false }),
+    );
+    render(<App />);
+    expect(root().style.getPropertyValue("--a11y-font-scale")).toBe("1.2");
+    expect(root()).toHaveAttribute("data-a11y-contrast", "on");
+  });
+
+  it("closes on Escape and returns focus to the toggle", async () => {
+    render(<App />);
+    const toggle = screen.getByRole("button", { name: "תפריט נגישות" });
+    await userEvent.click(toggle);
+
+    await userEvent.keyboard("{Escape}");
+    expect(toggle).toHaveAttribute("aria-expanded", "false");
+    expect(toggle).toHaveFocus();
   });
 });

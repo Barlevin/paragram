@@ -1,3 +1,4 @@
+import { AccessibilityMenu } from "./components/AccessibilityMenu";
 import { ContactFooter, Footer } from "./components/ContactFooter";
 import { Header } from "./components/Header";
 import { Hero } from "./components/Hero";
@@ -53,6 +54,7 @@ export default function App({ page: initialPage }: AppProps = {}) {
           </>
         )}
       </main>
+      <AccessibilityMenu />
     </>
   );
 }

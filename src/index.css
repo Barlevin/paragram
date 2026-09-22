@@ -67,9 +67,11 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .logo { display: inline-flex; align-items: center; direction: ltr; }
 .logo img { display: block; width: auto; height: clamp(2rem, 5vw, 2.5rem); }
 /* The header is transparent over the dark hero, so it needs the white wordmark. */
-.logo__img--dark { display: none; }
-.site-header--scrolled .logo__img--light { display: none; }
-.site-header--scrolled .logo__img--dark { display: block; }
+/* Qualified with `img` so these outrank `.logo img` above, which would otherwise
+   win on specificity and paint both wordmarks at once. */
+.logo img.logo__img--dark { display: none; }
+.site-header--scrolled .logo img.logo__img--light { display: none; }
+.site-header--scrolled .logo img.logo__img--dark { display: block; }
 .nav__links { display: flex; gap: clamp(1.2rem, 3vw, 2.8rem); margin-left: auto; direction: rtl; }
 .nav__cta, .nav__toggle { direction: rtl; }
 .nav__links a { position: relative; font-size: .95rem; font-weight: 600; }

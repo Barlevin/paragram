@@ -30,10 +30,10 @@ export function Hero() {
       <div className="shell hero__content">
         <div className="hero__copy">
           <div className="hero__intro">
-            <div className="hero__eyebrow">
+            {/* <div className="hero__eyebrow">
               <span className="status-dot" />
               מקבלים פרויקטים חדשים לאוגוסט
-            </div>
+            </div> */}
             <span className="section-rule" aria-hidden="true"><span /></span>
           </div>
           <h1>

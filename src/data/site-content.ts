@@ -52,18 +52,6 @@ export const projects: Project[] = [
   { title: "Dganit Leon", category: "ספורטותרפיה", image: "/images/dganit.webp", url: "https://dganitleon.co.il", focus: "left center" },
   { title: "DMZ", category: "בדיקות חדירה", image: "/images/dmz.webp", url: "https://dmz.co.il" },
   { title: "Yagel Shukrun", category: "שחקן · יוצר", image: "/images/yagelshukrun.webp", url: "https://yagelshukrun.co.il", focus: "62% center" },
-  { title: "Luma", category: "אדריכלות", image: "https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=1200&q=85", url: "https://example.com" },
-  { title: "Aster", category: "קולינריה", image: "https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=1200&q=85", url: "https://example.com" },
-  { title: "Noma", category: "טיפוח", image: "https://images.unsplash.com/photo-1556228578-8c89e6adf883?auto=format&fit=crop&w=1200&q=85", url: "https://example.com" },
-  { title: "North", category: "נדל״ן", image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=85", url: "https://example.com" },
-  { title: "Mika", category: "אופנה", image: "https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&w=1200&q=85", url: "https://example.com" },
-  { title: "Forma", category: "סטודיו לעיצוב", image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=1200&q=85", url: "https://example.com" },
-  { title: "Brava", category: "מסעדה", image: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1200&q=85", url: "https://example.com" },
-  { title: "Pulse", category: "פיטנס", image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1200&q=85", url: "https://example.com" },
-  { title: "Alba", category: "מלונאות", image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=85", url: "https://example.com" },
-  { title: "Terra", category: "קיימות", image: "https://images.unsplash.com/photo-1497250681960-ef046c08a56e?auto=format&fit=crop&w=1200&q=85", url: "https://example.com" },
-  { title: "Atelier", category: "קרמיקה", image: "https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&w=1200&q=85", url: "https://example.com" },
-  { title: "Sora", category: "טכנולוגיה", image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=85", url: "https://example.com" },
 ];
 
 export const plans = [

@@ -1,5 +1,6 @@
 import { ArrowDownLeft, ArrowLeft } from "lucide-react";
 import { useEffect, useState } from "react";
+import { revealIfAlreadyLoaded } from "../lib/images";
 
 export function Hero() {
   const [ready, setReady] = useState(false);
@@ -20,6 +21,7 @@ export function Hero() {
           width="2200"
           height="1400"
           fetchPriority="high"
+          ref={revealIfAlreadyLoaded}
           onLoad={(event) => { event.currentTarget.dataset.loaded = "true"; }}
         />
         <div className="hero__overlay" aria-hidden="true" />

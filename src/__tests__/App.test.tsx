@@ -71,6 +71,22 @@ describe("agency site", () => {
       expect(project.category.trim()).not.toBe("");
       expect(project.url).toMatch(/^https:\/\//);
       expect(project.image).toMatch(/^(\/|https:\/\/)/);
+      // A real portfolio link, not a placeholder.
+      expect(project.url).not.toMatch(/example\.com/);
+    }
+  });
+
+  // Prerendered HTML starts fetching before hydration, so eager images can finish
+  // before onLoad is attached. Without the ref fallback they stay at opacity 0.
+  it("reveals images that already finished loading before hydration", () => {
+    vi.spyOn(HTMLImageElement.prototype, "complete", "get").mockReturnValue(true);
+    vi.spyOn(HTMLImageElement.prototype, "naturalWidth", "get").mockReturnValue(1200);
+
+    render(<App />);
+
+    for (const project of projects) {
+      const card = screen.getByRole("link", { name: new RegExp(`^${project.title}`) });
+      expect(within(card).getByRole("img")).toHaveAttribute("data-loaded", "true");
     }
   });
 

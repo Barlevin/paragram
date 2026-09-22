@@ -2,6 +2,7 @@ import { ArrowLeft, ArrowRight, ArrowUpLeft } from "lucide-react";
 import { type CSSProperties, type PointerEvent, useEffect, useRef, useState } from "react";
 import { projects } from "../data/site-content";
 import { useReveal } from "../hooks/useReveal";
+import { revealIfAlreadyLoaded } from "../lib/images";
 
 /** Pointer travel before a press counts as a drag rather than a click. */
 const dragThreshold = 10;
@@ -160,6 +161,7 @@ export function Projects() {
                       loading={projectIndex < 4 ? "eager" : "lazy"}
                       style={project.focus ? { objectPosition: project.focus } : undefined}
                       draggable={false}
+                      ref={revealIfAlreadyLoaded}
                       onLoad={(event) => { event.currentTarget.dataset.loaded = "true"; }}
                     />
                     <span><ArrowUpLeft /></span>
@@ -174,7 +176,6 @@ export function Projects() {
           </div>
 
         </div>
-        <p className="placeholder-note">חלק מהפרויקטים המוצגים הם להמחשה ויוחלפו בעבודות נוספות של הסטודיו.</p>
       </div>
     </section>
   );

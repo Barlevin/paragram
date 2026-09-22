@@ -3,7 +3,7 @@ dist
 dist-ssr
 coverage
 .env
-data
+/data/
 *.local
 *.log
 .DS_Store
